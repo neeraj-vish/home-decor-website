@@ -1,0 +1,94 @@
+package com.homedecor.services.impl;
+
+import com.homedecor.entity.Role;
+import com.homedecor.entity.User;
+import com.homedecor.repository.RoleRepository;
+import com.homedecor.repository.UserRepository;
+import com.homedecor.services.UserServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserServicesImpl implements UserServices {
+
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+
+    @Autowired
+    public UserServicesImpl(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
+
+    
+    @Override
+    public User createUser(User user) {
+        System.out.println("Incoming User: " + user.getEmail());
+        System.out.println("Incoming Role: " + (user.getRole() != null ? user.getRole().getRoleId() : "null"));
+        System.out.println("Saving user with role: " + user.getRole());
+
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email is already registered");
+        }
+
+        if (user.getRole() == null || user.getRole().getRoleId() == null) {
+            throw new RuntimeException("Role must be provided");
+        }
+
+        // ✅ This is CRITICAL: fetch role from DB and assign it properly
+        Role role = roleRepository.findById(user.getRole().getRoleId())
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+
+        user.setRole(role);  // ✅ Important
+
+        return userRepository.save(user);
+    }
+
+
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> getUserById(Integer userId) {
+        return userRepository.findById(userId);
+    }
+
+    @Override
+    public User updateUser(Integer userId, User userDetails) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setEmail(userDetails.getEmail());
+
+        if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+            user.setPassword(userDetails.getPassword());
+        }
+
+        if (userDetails.getRole() != null && userDetails.getRole().getRoleId() != null) {
+            Role role = roleRepository.findById(userDetails.getRole().getRoleId())
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+            user.setRole(role);
+        } else {
+            user.setRole(null);
+        }
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userRepository.delete(user);
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+}

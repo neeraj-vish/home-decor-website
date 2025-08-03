@@ -1,0 +1,65 @@
+package com.homedecor.controllers;
+
+import com.homedecor.entity.LoginRequest;
+import com.homedecor.entity.Seller;
+import com.homedecor.entity.User;
+import com.homedecor.repository.SellerRepository;
+import com.homedecor.repository.UserRepository;
+import com.homedecor.services.AuthService;
+
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private SellerRepository sellerRepo;
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        // Step 1: Validate email & password
+    	Optional<User> optionalUser = userRepo.findByEmail(loginRequest.getEmail());
+    	if (optionalUser.isEmpty()) {
+    	    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    	}
+    	User user = optionalUser.get();
+
+
+        if (user == null || !passwordMatches(loginRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+
+        //Generate JWT token 
+        String token = jwtService.generateToken(user);
+
+        // If role is seller, fetch seller_id
+        Integer sellerId = null;
+        if (user.getRole().equalsIgnoreCase("Seller")) {
+            Seller seller = sellerRepo.findByUserId(user.getUserId());
+            if (seller != null) {
+                sellerId = seller.getSellerId();
+            }
+        }
+
+        // Send response with token and sellerId
+        return ResponseEntity.ok(Map.of(
+            "token", token,
+            "userId", user.getUserId(),
+            "email", user.getEmail(),
+            "role", user.getRole(),
+            "sellerId", sellerId
+        ));
+    }
+}
+

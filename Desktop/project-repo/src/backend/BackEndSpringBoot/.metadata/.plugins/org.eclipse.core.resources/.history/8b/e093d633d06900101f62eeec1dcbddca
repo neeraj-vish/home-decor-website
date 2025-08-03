@@ -1,0 +1,14 @@
+package com.homedecor.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.homedecor.entity.Buyer;
+
+public interface BuyerService {
+    Buyer saveBuyer(Buyer buyer);
+    Buyer updateBuyer(Integer buyerId, Buyer buyer);
+    Optional<Buyer> getBuyerById(Integer buyerId);
+    List<Buyer> getAllBuyers();
+    void deleteBuyer(Integer buyerId);
+}

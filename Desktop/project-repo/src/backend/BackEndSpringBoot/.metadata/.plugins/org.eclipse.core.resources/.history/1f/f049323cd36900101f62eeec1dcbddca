@@ -1,0 +1,90 @@
+package com.homedecor.services.impl;
+
+import com.homedecor.entity.Buyer;
+import com.homedecor.entity.User;
+import com.homedecor.repository.BuyerRepository;
+import com.homedecor.repository.UserRepository;
+import com.homedecor.services.BuyerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class BuyerServiceImpl implements BuyerService {
+
+    private final BuyerRepository buyerRepository;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public BuyerServiceImpl(BuyerRepository buyerRepository, UserRepository userRepository) {
+        this.buyerRepository = buyerRepository;
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public Buyer saveBuyer(Buyer buyer) {
+        User user = buyer.getUser();
+
+        if (user == null) {
+            throw new RuntimeException("Buyer must be linked to a User");
+        }
+
+        // Save User if new (no userId assigned yet)
+        if (user.getUserId() == null) {
+            user = userRepository.save(user);
+            buyer.setUser(user);
+        } else {
+            // Verify User exists in DB
+            if (!userRepository.existsById(user.getUserId())) {
+                throw new RuntimeException("Referenced User does not exist");
+            }
+        }
+
+        return buyerRepository.save(buyer);
+    }
+
+    @Override
+    public Buyer updateBuyer(Integer buyerId, Buyer buyer) {
+        Optional<Buyer> existingOpt = buyerRepository.findById(buyerId);
+        if (existingOpt.isEmpty()) {
+            throw new RuntimeException("Buyer not found with id: " + buyerId);
+        }
+
+        Buyer existingBuyer = existingOpt.get();
+
+        existingBuyer.setFirstName(buyer.getFirstName());
+        existingBuyer.setLastName(buyer.getLastName());
+        existingBuyer.setAddress(buyer.getAddress());
+        existingBuyer.setPhoneNumber(buyer.getPhoneNumber());
+
+        User user = buyer.getUser();
+        if (user != null) {
+            if (user.getUserId() == null) {
+                user = userRepository.save(user);
+            } else if (!userRepository.existsById(user.getUserId())) {
+                throw new RuntimeException("Referenced User does not exist");
+            }
+            existingBuyer.setUser(user);
+        }
+
+        return buyerRepository.save(existingBuyer);
+    }
+
+    @Override
+    public Optional<Buyer> getBuyerById(Integer buyerId) {
+        return buyerRepository.findById(buyerId);
+    }
+
+    @Override
+    public List<Buyer> getAllBuyers() {
+        return buyerRepository.findAll();
+    }
+
+    @Override
+    public void deleteBuyer(Integer buyerId) {
+        buyerRepository.deleteById(buyerId);
+    }
+}

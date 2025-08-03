@@ -1,0 +1,120 @@
+package com.homedecor.services.impl;
+
+import com.homedecor.entity.Buyer;
+import com.homedecor.entity.Role;
+import com.homedecor.entity.Seller;
+import com.homedecor.entity.User;
+import com.homedecor.repository.BuyerRepository;
+import com.homedecor.repository.RoleRepository;
+import com.homedecor.repository.SellerRepository;
+import com.homedecor.repository.UserRepository;
+import com.homedecor.services.BuyerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class BuyerServiceImpl implements BuyerService {
+
+    @Autowired
+    private BuyerRepository buyerRepository;
+
+    @Autowired
+    private SellerRepository sellerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    // ✅ Save Buyer with User handling and Role assignment
+    @Override
+    public Buyer saveBuyer(Buyer buyer) {
+        User user = buyer.getUser();
+
+        if (user == null || user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("Buyer must include valid user info with password");
+        }
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        if (buyerRepository.existsByPhoneNumber(buyer.getPhoneNumber())) {
+            throw new IllegalArgumentException("Phone number already exists");
+        }
+
+        // Set 'buyer' role
+        Role buyerRole = roleRepository.findByRoleName("buyer");
+        if (buyerRole == null) {
+            throw new RuntimeException("Role 'buyer' not found");
+        }
+
+        user.setRole(buyerRole);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Save user first
+        User savedUser = userRepository.save(user);
+
+        // Then link to buyer and save buyer
+        buyer.setUser(savedUser);
+        return buyerRepository.save(buyer);
+    }
+
+    // ✅ Buyer methods
+    @Override
+    public List<Buyer> getAllBuyers() {
+        return buyerRepository.findAll();
+    }
+
+    @Override
+    public Optional<Buyer> getBuyerById(Integer buyerId) {
+        return buyerRepository.findById(buyerId);
+    }
+
+    @Override
+    public void deleteBuyer(Integer buyerId) {
+        buyerRepository.deleteById(buyerId);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByPhoneNumber(String phone) {
+        return buyerRepository.existsByPhoneNumber(phone);
+    }
+
+    // ✅ Seller methods (if shared in same class)
+    @Override
+    public List<Seller> getAllSellers() {
+        return sellerRepository.findAll();
+    }
+
+    @Override
+    public Optional<Seller> getSellerById(Integer sellerId) {
+        return sellerRepository.findById(sellerId);
+    }
+
+    @Override
+    public void deleteSeller(Integer sellerId) {
+        sellerRepository.deleteById(sellerId);
+    }
+
+    public boolean existsByGstNumber(String gst) {
+        return sellerRepository.existsByGstNumber(gst);
+    }
+
+    public boolean existsByLicenseNumber(String lic) {
+        return sellerRepository.existsByLicenseNumber(lic);
+    }
+}

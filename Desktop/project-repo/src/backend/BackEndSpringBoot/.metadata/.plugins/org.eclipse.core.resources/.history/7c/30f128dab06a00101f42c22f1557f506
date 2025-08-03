@@ -1,0 +1,79 @@
+package com.homedecor.controllers;
+
+import com.homedecor.entity.Seller;
+import com.homedecor.entity.User;
+import com.homedecor.repository.SellerRepository;
+import com.homedecor.repository.UserRepository;
+import com.homedecor.services.SellerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/auth")
+@CrossOrigin("*")
+public class AuthController {
+
+    @Autowired
+    private SellerService sellerService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private SellerRepository sellerRepository;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    //Seller Signup with backend uniqueness validation
+    @PostMapping("/seller/signup")
+    public ResponseEntity<?> registerSeller(@RequestBody Seller seller) {
+        User user = seller.getUser();
+
+        if (user == null || user.getEmail() == null || user.getPassword() == null) {
+            return ResponseEntity.badRequest().body("Email and password are required");
+        }
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return ResponseEntity.badRequest().body("Email already exists");
+        }
+
+        if (sellerRepository.existsByGstNumber(seller.getGstNumber())) {
+            return ResponseEntity.badRequest().body("GST number already exists");
+        }
+
+        if (sellerRepository.existsByLicenseNumber(seller.getLicenseNumber())) {
+            return ResponseEntity.badRequest().body("License number already exists");
+        }
+
+        Seller savedSeller = sellerService.saveSeller(seller);
+        return ResponseEntity.ok(savedSeller);
+    }
+
+    
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginData) {
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+            );
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Login successful");
+            response.put("email", email);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Invalid email or password");
+        }
+    }
+}
