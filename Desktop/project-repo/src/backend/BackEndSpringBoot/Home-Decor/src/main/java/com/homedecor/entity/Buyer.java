@@ -1,5 +1,7 @@
 package com.homedecor.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -26,8 +28,8 @@ public class Buyer {
    
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
-
 
     // Getters and setters
     public Integer getBuyerId() { return buyerId; }

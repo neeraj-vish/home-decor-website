@@ -1,6 +1,7 @@
 package com.homedecor.services.impl;
 
 import com.homedecor.entity.User;
+import com.homedecor.dto.SellerDto;
 import com.homedecor.entity.Role;
 import com.homedecor.entity.Seller;
 import com.homedecor.repository.RoleRepository;
@@ -88,7 +89,39 @@ public class SellerServiceImpl implements SellerService {
     }
     
     
+    @Override
+    public SellerDto getSellerByUserEmail(String email) {
+        Seller seller = sellerRepository.findByUserEmail(email);
+        if (seller == null) throw new RuntimeException("Seller not found for email: " + email);
+
+        return new SellerDto(
+        	    seller.getSellerId(),
+        	    seller.getCompanyName(),
+        	    seller.getCompanyAddress(),
+        	    seller.getGstNumber(),
+        	    seller.getLicenseNumber(),
+        	    seller.getUser().getEmail()
+        	    
+        	);
+
+    }
+
     
+    @Override
+    public SellerDto updateSeller(Integer id, SellerDto sellerDto) {
+        Seller seller = sellerRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Seller not found with id: " + id));
+
+        // Update fields
+        seller.setCompanyName(sellerDto.getCompanyName());
+        seller.setCompanyAddress(sellerDto.getCompanyAddress());
+        seller.setGstNumber(sellerDto.getGstNumber());
+        seller.setLicenseNumber(sellerDto.getLicenseNumber());
+
+        Seller updatedSeller = sellerRepository.save(seller);
+        return new SellerDto(updatedSeller);
+    }
+
     
     
     

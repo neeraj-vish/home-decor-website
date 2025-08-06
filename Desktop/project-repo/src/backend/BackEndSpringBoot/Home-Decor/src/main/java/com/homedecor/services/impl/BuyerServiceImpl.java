@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BuyerServiceImpl implements BuyerService {
@@ -29,13 +28,10 @@ public class BuyerServiceImpl implements BuyerService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    //SINGLE method for buyer registration 
     @Override
     public Buyer registerBuyer(Buyer buyer) {
         User user = buyer.getUser();
-
-        if (user == null || user.getEmail() == null || user.getPassword() == null ||
-            user.getEmail().trim().isEmpty() || user.getPassword().trim().isEmpty()) {
+        if (user == null || user.getEmail() == null || user.getPassword() == null) {
             throw new IllegalArgumentException("Email and password are required");
         }
 
@@ -48,31 +44,13 @@ public class BuyerServiceImpl implements BuyerService {
         }
 
         Role buyerRole = roleRepository.findByRoleName("buyer");
-        if (buyerRole == null) {
-            throw new RuntimeException("Role 'buyer' not found in database");
-        }
+        if (buyerRole == null) throw new RuntimeException("Role 'buyer' not found");
 
         user.setRole(buyerRole);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User savedUser = userRepository.save(user);
+        buyer.setUser(userRepository.save(user));
 
-        buyer.setUser(savedUser);
         return buyerRepository.save(buyer);
-    }
-
-    @Override
-    public List<Buyer> getAllBuyers() {
-        return buyerRepository.findAll();
-    }
-
-    @Override
-    public Optional<Buyer> getBuyerById(Integer buyerId) {
-        return buyerRepository.findById(buyerId);
-    }
-
-    @Override
-    public void deleteBuyer(Integer buyerId) {
-        buyerRepository.deleteById(buyerId);
     }
 
     @Override
@@ -85,9 +63,27 @@ public class BuyerServiceImpl implements BuyerService {
         return buyerRepository.existsByPhoneNumber(phone);
     }
 
-	@Override
-	public Buyer saveBuyer(Buyer buyer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Buyer> getAllBuyers() {
+        return buyerRepository.findAll();
+    }
+
+    @Override
+    public void deleteBuyer(Integer buyerId) {
+        buyerRepository.deleteById(buyerId);
+    }
+
+    @Override
+    public Buyer getBuyerByEmail(String email) {
+        return buyerRepository.findByUserEmail(email)
+            .orElseThrow(() -> new RuntimeException("Buyer not found for email: " + email));
+    }
+    
+    
+
+    @Override
+    public Buyer findBuyerById(Integer id) {
+        return buyerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Buyer not found with id: " + id));
+    }
 }

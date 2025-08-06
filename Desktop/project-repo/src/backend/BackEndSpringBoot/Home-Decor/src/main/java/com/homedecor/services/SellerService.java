@@ -1,5 +1,6 @@
 package com.homedecor.services;
 
+import com.homedecor.dto.SellerDto;
 import com.homedecor.entity.Seller;
 
 import java.util.List;
@@ -18,7 +19,6 @@ public interface SellerService {
     boolean existsByEmail(String email);
     boolean existsByGstNumber(String gst);
     boolean existsByLicenseNumber(String lic);
-
-    
-    
+    SellerDto getSellerByUserEmail(String email);
+    SellerDto updateSeller(Integer id, SellerDto sellerDto);   
 }
