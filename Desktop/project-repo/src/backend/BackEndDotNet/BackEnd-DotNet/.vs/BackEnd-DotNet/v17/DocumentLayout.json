@@ -1,0 +1,150 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd-DotNet\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Models\\ProductUploadDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd-DotNet\\Models\\ProductUploadDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Models\\Seller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd-DotNet\\Models\\Seller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\NewFile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:NewFile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Models\\Product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd-DotNet\\Models\\Product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Services\\CloudinaryService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd-DotNet\\Services\\CloudinaryService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Controllers\\ProductController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd-DotNet\\Controllers\\ProductController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\DAL\\ProductDAL.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd-DotNet\\DAL\\ProductDAL.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "NewFile",
+              "DocumentMoniker": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\NewFile",
+              "RelativeDocumentMoniker": "NewFile",
+              "ToolTip": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\NewFile",
+              "RelativeToolTip": "NewFile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-08-05T06:23:01.074Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Seller.cs",
+              "DocumentMoniker": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Models\\Seller.cs",
+              "RelativeDocumentMoniker": "BackEnd-DotNet\\Models\\Seller.cs",
+              "ToolTip": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Models\\Seller.cs",
+              "RelativeToolTip": "BackEnd-DotNet\\Models\\Seller.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T05:11:35.921Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Product.cs",
+              "DocumentMoniker": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "BackEnd-DotNet\\Models\\Product.cs",
+              "ToolTip": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Models\\Product.cs",
+              "RelativeToolTip": "BackEnd-DotNet\\Models\\Product.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T17:23:04.159Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Program.cs",
+              "RelativeDocumentMoniker": "BackEnd-DotNet\\Program.cs",
+              "ToolTip": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Program.cs",
+              "RelativeToolTip": "BackEnd-DotNet\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T16:27:17.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ProductDAL.cs",
+              "DocumentMoniker": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\DAL\\ProductDAL.cs",
+              "RelativeDocumentMoniker": "BackEnd-DotNet\\DAL\\ProductDAL.cs",
+              "ToolTip": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\DAL\\ProductDAL.cs",
+              "RelativeToolTip": "BackEnd-DotNet\\DAL\\ProductDAL.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAABMAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T16:15:29.317Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductUploadDto.cs",
+              "DocumentMoniker": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Models\\ProductUploadDto.cs",
+              "RelativeDocumentMoniker": "BackEnd-DotNet\\Models\\ProductUploadDto.cs",
+              "ToolTip": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Models\\ProductUploadDto.cs",
+              "RelativeToolTip": "BackEnd-DotNet\\Models\\ProductUploadDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T16:11:49.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "BackEnd-DotNet\\Controllers\\ProductController.cs",
+              "ToolTip": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "BackEnd-DotNet\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAYwCUAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T16:09:28.683Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CloudinaryService.cs",
+              "DocumentMoniker": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Services\\CloudinaryService.cs",
+              "RelativeDocumentMoniker": "BackEnd-DotNet\\Services\\CloudinaryService.cs",
+              "ToolTip": "D:\\FINALPROJDAC\\front end\\Backend\\dotnetProductFetch\\backendNiraj\\BackEnd-DotNet\\BackEnd-DotNet\\Services\\CloudinaryService.cs",
+              "RelativeToolTip": "BackEnd-DotNet\\Services\\CloudinaryService.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAgwCAAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T16:07:30.938Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
