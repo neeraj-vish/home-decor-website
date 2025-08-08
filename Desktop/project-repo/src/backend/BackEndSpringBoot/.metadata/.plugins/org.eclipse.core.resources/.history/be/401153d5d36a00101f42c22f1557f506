@@ -1,0 +1,46 @@
+package com.homedecor.controllers;
+
+import com.homedecor.entity.Seller;
+import com.homedecor.services.SellerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/sellers")
+@CrossOrigin(origins = "http://localhost:5173")  // Allow requests from your frontend origin
+public class SellerController {
+
+    @Autowired
+    private SellerService sellerService;
+
+    @PostMapping("/create")
+    public ResponseEntity<Seller> createSeller(@RequestBody Seller seller) {
+        Seller savedSeller = sellerService.saveSeller(seller);
+        return ResponseEntity.ok(savedSeller);
+    }
+
+    @GetMapping("/getAllSellers")
+    public ResponseEntity<List<Seller>> getAllSellers() {
+        return ResponseEntity.ok(sellerService.getAllSellers());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Seller> getSellerById(@PathVariable Integer id) {
+        Optional<Seller> seller = sellerService.getSellerById(id);
+        if (seller.isPresent()) {
+            return ResponseEntity.ok(seller.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSeller(@PathVariable Integer id) {
+        sellerService.deleteSeller(id);
+        return ResponseEntity.noContent().build();
+    }
+}

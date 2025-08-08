@@ -1,0 +1,26 @@
+package com.homedecor.security;
+
+import com.homedecor.entity.User;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
+@Service
+public class JwtService {
+
+    private final String SECRET = "my-secret-key"; 
+    private final long EXPIRATION_TIME = 86400000; 
+
+    public String generateToken(User user) {
+        return Jwts.builder()
+                .setSubject(user.getEmail())
+                .claim("role", user.getRole().getRoleName())
+                .claim("userId", user.getUserId())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .compact();
+    }
+}

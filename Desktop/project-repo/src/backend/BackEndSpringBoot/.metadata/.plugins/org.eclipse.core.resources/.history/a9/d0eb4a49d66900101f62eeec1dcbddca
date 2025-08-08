@@ -1,0 +1,57 @@
+package com.homedecor.controllers;
+
+import com.homedecor.entity.Buyer;
+import com.homedecor.services.BuyerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/buyers")
+@CrossOrigin(origins = "http://localhost:5173") 
+public class BuyerController {
+
+    private final BuyerService buyerService;
+
+    @Autowired
+    public BuyerController(BuyerService buyerService) {
+        this.buyerService = buyerService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Buyer> createBuyer(@RequestBody Buyer buyer) {
+        Buyer savedBuyer = buyerService.saveBuyer(buyer);
+        return ResponseEntity.ok(savedBuyer);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Buyer> getBuyerById(@PathVariable Integer id) {
+        return buyerService.getBuyerById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Buyer>> getAllBuyers() {
+        return ResponseEntity.ok(buyerService.getAllBuyers());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Buyer> updateBuyer(@PathVariable Integer id, @RequestBody Buyer buyer) {
+        try {
+            Buyer updatedBuyer = buyerService.updateBuyer(id, buyer);
+            return ResponseEntity.ok(updatedBuyer);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBuyer(@PathVariable Integer id) {
+        buyerService.deleteBuyer(id);
+        return ResponseEntity.noContent().build();
+    }
+}

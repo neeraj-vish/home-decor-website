@@ -1,0 +1,49 @@
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private SellerRepository sellerRepo;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        Optional<User> optionalUser = userRepo.findByEmail(loginRequest.getEmail());
+
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+
+        User user = optionalUser.get();
+
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+
+        String token = jwtService.generateToken(user);
+
+        Integer sellerId = null;
+        if ("Seller".equalsIgnoreCase(user.getRole().getRoleName())) {
+            Seller seller = sellerRepo.findByUserId(user.getUserId());
+            if (seller != null) {
+                sellerId = seller.getSellerId();
+            }
+        }
+
+        return ResponseEntity.ok(Map.of(
+            "token", token,
+            "userId", user.getUserId(),
+            "email", user.getEmail(),
+            "role", user.getRole(),
+            "sellerId", sellerId
+        ));
+    }
+}
