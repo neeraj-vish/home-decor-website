@@ -1,5 +1,0 @@
-package com.homedecor.repository;
-
-public interface Buyer {
-
-}
