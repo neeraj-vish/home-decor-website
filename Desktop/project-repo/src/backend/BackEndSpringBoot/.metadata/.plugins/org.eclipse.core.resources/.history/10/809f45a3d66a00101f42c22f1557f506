@@ -1,0 +1,5 @@
+package com.homedecor.services.impl;
+
+public class BuyerServiceImpl {
+
+}

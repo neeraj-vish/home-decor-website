@@ -1,0 +1,71 @@
+package com.homedecor.services;
+import com.homedecor.entity.Role;
+import com.homedecor.entity.Seller;
+import com.homedecor.entity.User;
+import com.homedecor.repository.RoleRepository;
+import com.homedecor.repository.SellerRepository;
+import com.homedecor.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AuthService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private SellerRepository sellerRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public Seller registerSeller(Seller seller) {
+
+        User user = seller.getUser();
+
+        if (user == null || user.getEmail() == null || user.getPassword() == null) {
+            throw new IllegalArgumentException("User email and password are required");
+        }
+
+        // Check uniqueness
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        if (sellerRepository.existsByGstNumber(seller.getGstNumber())) {
+            throw new IllegalArgumentException("GST number already exists");
+        }
+
+        if (sellerRepository.existsByLicenseNumber(seller.getLicenseNumber())) {
+            throw new IllegalArgumentException("License number already exists");
+        }
+
+        Role sellerRole = roleRepository.findByRoleName("seller");
+        if (sellerRole == null) {
+            throw new RuntimeException("Seller role not found in DB");
+        }
+
+        user.setRole(sellerRole);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User savedUser = userRepository.save(user);
+
+        seller.setUser(savedUser);
+        return sellerRepository.save(seller);
+    }
+
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with this email"));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("Invalid password");
+        }
+
+        return user;
+    }
+}

@@ -1,0 +1,43 @@
+package com.homedecor.controllers;
+
+import com.homedecor.entity.Seller;
+import com.homedecor.entity.User;
+import com.homedecor.services.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/auth")
+@CrossOrigin(origins = "*") 
+public class AuthController {
+
+    @Autowired
+    private AuthService authService;
+
+    // Seller Signup Endpoint
+    @PostMapping("/signup/seller")
+    public ResponseEntity<?> registerSeller(@RequestBody Seller seller) {
+        try {
+            Seller createdSeller = authService.registerSeller(seller);
+            return ResponseEntity.ok(createdSeller);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Server error: " + e.getMessage());
+        }
+    }
+
+    // Login Endpoint
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User loginRequest) {
+        try {
+            User user = authService.login(loginRequest.getEmail(), loginRequest.getPassword());
+            return ResponseEntity.ok(user);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Server error: " + e.getMessage());
+        }
+    }
+}

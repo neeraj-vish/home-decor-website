@@ -1,0 +1,60 @@
+package com.homedecor.services;
+
+import com.homedecor.entity.Role;
+import com.homedecor.entity.User;
+import com.homedecor.repository.RoleRepository;
+import com.homedecor.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserServices {
+
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private RoleRepository roleRepository;
+
+    public User createUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public Optional<User> getUserById(Integer userId) {
+        return userRepository.findById(userId);
+    }
+
+    public User updateUser(Integer userId, User userDetails) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
+
+        user.setEmail(userDetails.getEmail());
+        user.setPassword(userDetails.getPassword());
+
+        if (userDetails.getRole() != null && userDetails.getRole().getRoleId() != null) {
+            Role role = roleRepository.findById(userDetails.getRole().getRoleId())
+                    .orElseThrow(() -> new RuntimeException(
+                            "Role not found with id " + userDetails.getRole().getRoleId()));
+            user.setRole(role);
+        } else {
+            user.setRole(null);
+        }
+
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
+        userRepository.delete(user);
+    }
+}
+
+
