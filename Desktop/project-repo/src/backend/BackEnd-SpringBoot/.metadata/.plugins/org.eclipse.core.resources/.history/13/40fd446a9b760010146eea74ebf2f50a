@@ -1,0 +1,56 @@
+package com.homedecor.config;
+
+import java.util.Arrays;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.http.HttpMethod;
+
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+        http
+            .csrf(ServerHttpSecurity.CsrfSpec::disable)
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .authorizeExchange(exchanges -> exchanges
+                // allow auth and admin endpoints through the gateway
+                .pathMatchers("/api/auth/**").permitAll()
+                .pathMatchers("/api/admin/**").permitAll()
+                // allow buyer public endpoints (existing)
+                .pathMatchers(
+                    "/api/buyers/register",
+                    "/api/buyers/check-email",
+                    "/api/buyers/check-phone",
+                    "/api/buyers/email/**",
+                    "/api/buyers/getAll"
+                ).permitAll()
+                // allow CORS preflight
+                .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .anyExchange().authenticated()
+            )
+            .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
+            .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable);
+
+        return http.build();
+    }
+
+    private CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+}

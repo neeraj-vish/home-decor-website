@@ -1,0 +1,58 @@
+package com.homedecor;
+
+import java.util.Arrays;
+
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+@Configuration
+public class ReouteHelper {
+	
+	@Bean
+	CorsWebFilter corsWebFilter() {
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    CorsConfiguration config = new CorsConfiguration();
+	    
+	    config.setAllowCredentials(true);
+	    config.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Ensure it matches your frontend URL
+	    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+	    config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+	    config.setExposedHeaders(Arrays.asList("Authorization")); // Expose headers if needed
+	    
+	    source.registerCorsConfiguration("/**", config);
+
+	    return new CorsWebFilter(source);
+	}
+
+	
+	
+	
+	@Bean
+	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+		return builder.routes()
+				  .route("auth-service", r -> r.path("/api/auth/**")
+				            .uri("http://localhost:8081"))
+				        .route("admin-service", r -> r.path("/api/admin/**")
+				            .uri("http://localhost:808"))
+				        .route("buyer-service", r -> r.path("/api/buyers/**")
+				            .uri("http://localhost:8080"))
+				        .route("seller-service", r -> r.path("/api/sellers/**")
+				            .uri("http://localhost:8080"))
+				        .route("role-service", r -> r.path("/api/roles/**")
+				            .uri("http://localhost:8080"))
+				        .route("user-service", r -> r.path("/api/users/**")
+				            .uri("http://localhost:8080"))
+				        .build();
+//				.route("service2",r->r.path("/api2/**")
+//					//.uri("http://localhost:8082"))
+//				    .uri("lb://Service2"))
+//				.build();
+		
+	}
+
+}

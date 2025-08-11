@@ -1,0 +1,45 @@
+server:
+  port: 8083  # Gateway port
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        # Buyer Service
+        - id: buyer-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/buyers/**
+
+        # Seller Service
+        - id: seller-service
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/sellers/**
+
+        # Auth Service
+        - id: auth-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/auth/**
+
+        # Admin Service
+        - id: admin-service
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/admin/**
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - Authorization
+              - Content-Type
+            allowCredentials: true

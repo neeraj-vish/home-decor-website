@@ -1,0 +1,5 @@
+package com.homedecor.entity;
+
+public class User {
+    private Long id;
+}

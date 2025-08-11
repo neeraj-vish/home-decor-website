@@ -1,0 +1,58 @@
+package com.homedecor;
+
+import java.util.Arrays;
+
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+@Configuration
+public class ReouteHelper {
+	
+	@Bean
+	CorsWebFilter corsWebFilter() {
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    CorsConfiguration config = new CorsConfiguration();
+	    
+	    config.setAllowCredentials(true);
+	    config.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Ensure it matches your frontend URL
+	    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+	    config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+	    config.setExposedHeaders(Arrays.asList("Authorization")); // Expose headers if needed
+	    
+	    source.registerCorsConfiguration("/**", config);
+
+	    return new CorsWebFilter(source);
+	}
+
+	
+	
+	
+	@Bean
+	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+	    return builder.routes()
+	        // AuthService
+	        .route("auth-service", r -> r.path("/api/auth/**")
+	            .uri("http://localhost:8084"))
+	        
+	     // AdminService
+	        .route("admin-service", r -> r.path("/api/admin/**")
+	            .uri("http://localhost:8088"))
+
+	        // BuyerService
+	        .route("buyer-service", r -> r.path("/api/buyer/**")
+	            .uri("http://localhost:8085"))
+
+	        // SellerService
+	        .route("seller-service", r -> r.path("/api/seller/**")
+	            .uri("http://localhost:8086"))
+
+	        .build();
+	}
+
+
+}

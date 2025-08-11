@@ -1,0 +1,50 @@
+package com.homedecor.services.impl;
+
+import com.homedecor.dto.UserDto;
+import com.homedecor.entity.Admin;
+import com.homedecor.entity.LoginRequest;
+import com.homedecor.entity.LoginResponse;
+import com.homedecor.entity.User;
+import com.homedecor.repository.AdminRepository;
+import com.homedecor.repository.UserRepository;
+import com.homedecor.services.AdminService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class AdminServiceImpl implements AdminService {
+
+    @Autowired
+    private AdminRepository adminRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+        Admin admin = adminRepository.findByEmail(loginRequest.getEmail());
+        if (admin != null && passwordEncoder.matches(loginRequest.getPassword(), admin.getPassword())) {
+            return new LoginResponse("dummy-token", "Login successful");
+        }
+        return new LoginResponse(null, "Invalid credentials");
+    }
+
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream().map(u -> {
+            UserDto dto = new UserDto();
+            dto.setId(u.getId());
+            dto.setEmail(u.getEmail());
+            dto.setRole(u.getRole() != null ? u.getRole().getName() : null);
+            return dto;
+        }).collect(Collectors.toList());
+    }
+}

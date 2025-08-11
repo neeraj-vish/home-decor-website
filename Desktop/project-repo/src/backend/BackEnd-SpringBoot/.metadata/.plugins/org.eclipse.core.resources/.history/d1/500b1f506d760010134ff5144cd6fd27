@@ -1,0 +1,21 @@
+package com.homedecor.controllers;
+
+import com.homedecor.dto.UserDto;
+import com.homedecor.services.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/admin")
+public class AdminController {
+
+    @Autowired
+    private AdminService adminService;
+
+    @GetMapping("/users")
+    public List<UserDto> allUsers() {
+        return adminService.getAllUsers();
+    }
+}
